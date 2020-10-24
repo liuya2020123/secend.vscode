@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input type="file" name="avatar">
+        <input type="submit" value="提 交">
+    </form>
+
+    <!-- 进度条 -->
+    <progress style="display: none;" max="100" value="5"></progress>
+
+    <!-- 展示图片 -->
+    <img width="500" id="pic" src="" alt="">
+
+    <!-- <script src="./jquery-1.12.4.js"></script> -->
+    <script src="./jquery-1.12.4.js"></script>
+    <script>
+        var form = $('form');
+        var progress = $('progress');
+        var pic = $('#pic');
+
+        form.on('submit', function (e) {
+            e.preventDefault();
+            // 收集表单数据
+            var fd = new FormData(this);
+
+            // jq得ajax方法、
+            $.ajax({
+                type: "POST",
+                url: "http://www.liulongbin.top:3006/api/upload/avatar",
+                data: fd,
+                contentType: false,
+                processData: false,
+                xhr: function () {
+                    var xhr = new XMLHttpRequest();
+                    xhr.upload.onprogress = function (e) {
+                        console.log(e);
+                        progress.show();
+                        // 总文件大小
+                        progress.attr("max", e.total);
+                        // 当前文件得大小
+                        progress.attr('value', e.loaded);
+
+                    }
+                    return xhr;
+
+                },
+                success: function (info) {
+                    console.log(info);
+                    pic.attr("src", "http://www.liulongbin.top:3006" + info.url);
+
+                }
+
+
+
+
+
+
+
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input type="file" name="avatar">
+        <input type="submit" value="提 交">
+    </form>
+
+    <img id="pic" src="" alt="">
+
+    <script src="jquery-1.12.4.js"></script>
+    <script>
+      var $for=$('form');
+      $form.on('submit',function(e){
+// 阻止表格得默认行为
+          e.preventDefault();
+        //   FormData收集数据
+        var fd=new FormData(this);
+        // jq得ajax方法
+        $.ajax({
+type:"POST",
+url:"http://111.229.6.231:9996/v1/post",
+data=fd,
+success:function(info){
+    console.log(info);
+}
+
+
+
+
+
+
+
+
+        })
+
+      })
+    </script>
+</body>
+
+</html>

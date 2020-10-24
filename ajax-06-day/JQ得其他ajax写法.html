@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="./jquery-1.12.4.js"></script>
+    <script>
+        $(function () {
+            // $.ajax({})
+
+            // $.get();
+            // $.post();
+            // 写法同$.ajax()
+
+            $.get({
+
+                url: "http://111.229.6.231:9996/v1/get",
+                data: {
+                    name: "admin",
+                    pwd: "123456"
+
+
+                },
+                success: function (info) {
+                    console.log(info);
+                }
+            });
+            $.post({
+
+                url: "http://111.229.6.231:9996/v1/post",
+                data: {
+                    name: "admin",
+                    pwd: "123456"
+                },
+                success: function (info) {
+                    console,
+                    log(info);
+                }
+
+            })
+
+
+        });
+
+// 更加简化得写法
+// $.get(url,data,success);
+$.get("http://111.229.6.231:9996/v1/get",{
+    name:"admin",
+    pwd:"123456"
+},function(info){
+    console.log(info);
+});
+
+$.post("http://111.229.6.231:9996/v1/post",{
+    name:"admin",
+    ped:"123456"
+},function(info){
+    console.log(info);
+})
+    </script>
+</body>
+
+</html>

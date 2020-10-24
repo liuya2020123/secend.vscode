@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input type="file" name="avatar">
+        <input type="submit" value="提交">
+
+    </form>
+    <!-- 进度条 -->
+    <progress style="display:none" max="100" value="5"></progress>
+    <!-- 展示图片 -->
+    <img width="500" id="pic" src="" alt="">
+    <!-- <script src="./jquery-1.12.4.js"></script> -->
+    <script src="./jquery-1.12.4.js"></script>
+    <script>
+        // 找到对象
+        var form = $('form');
+        var progress = $('progress');
+        var pic = $('#pic');
+        // 给表单注册submit事件
+        form.on('submit', function (e) {
+            // 阻止表单得默认行为
+            e.preventDefault();
+            // 收集数据
+            var fd = new FormData(this);
+            // jq得ajax请求
+            $.ajax({
+                type: "POST",
+                url: "http://www.liulongbin.top:3006/api/upload/avatar",
+                data: fd,
+                // 写fd笔袋得两个配置
+                contentType: false, //阻止浏览器设置contentType
+                processData: false, //告诉浏览器不要设置data属性，直接返回data数据
+                xhr: function () {
+// 在xhr函数中对ajax对象进行扩展功能
+                    var xhr = new XMLHttpRequest();
+
+                    // 处理进度条效果
+                    // 需要给xhr注册upload.onprogress事件==》上传文件进度发生改变就会触发
+                    // 注意：该事件 得注册需要在send之前
+                    xhr.upload.onprogress = function (e) {
+
+                        // 通过事件对象e可以获取上传文件的总大小和当前上传的大小
+                        // e.total(总文件得大小)取值赋值给progress得进度条总max
+                        // e.loaded(当前文件大小)取值赋值给progress得进度条value值
+                        // console.log(e);
+
+                        // 显示进度条
+                        // ------------------有点糊涂---------------------------
+                        progress.show();
+                        progress.attr('max', e.total);
+                        progress.attr('value', e.loaded);
+
+
+
+                    }
+
+                    // 最后需要将增强后的xhr返回去
+                    return xhr;
+
+
+                },
+                success: function (info) {
+                    // console.log(info);
+                    // ------------------有点糊涂------------------------------
+                    pic.attr('src', "http://www.liulongbin.top:3006" + info.url);
+
+                }
+
+
+
+            })
+
+
+        })
+    </script>
+</body>
+
+</html>
